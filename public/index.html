@@ -145,11 +145,10 @@
         function getBudget() {
             axios.get('/budget')
                 .then(function (res) {
-                    for (var i = 0; i < res.data.myBudget.length; i++) {
-                        budget.datasets[0].data[i] = res.data.myBudget[i].budget;
-                        budget.datasets[0].backgroundColor[i] = res.data.myBudget[i].color;
-                        budget.labels[i] = res.data.myBudget[i].title;
-                    }
+                    console.log(res)
+                    budget.datasets[0].data = res.data.map(item => item.budget);
+                    budget.labels = res.data.map(item => item.title);
+                    budget.datasets[0].backgroundColor = res.data.map(item => item.color)
                     createDoughnut();
                 });
         }
@@ -162,7 +161,7 @@
         function getChartUsingD3JS() {
             axios.get('/budget')
                 .then(function (res) {
-                    const budgetData = res.data.myBudget;
+                    const budgetData = res.data;
 
                     const margin = { top: 20, right: 30, bottom: 40, left: 40 },
                         width = 800 - margin.left - margin.right,
@@ -230,7 +229,7 @@
         function getChart() {
             axios.get('/example')
                 .then(function (res) {
-                    const donutData = res.data.myBudget;
+                    const donutData = res.data;
 
                 const width = 200;
                 const height = 200;
